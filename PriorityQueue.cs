@@ -1,5 +1,5 @@
-namespace PriorityQueue
-{
+// namespace PriorityQueue
+
     public class PriorityQueue<T>
     {
         public class Node
@@ -17,6 +17,8 @@ namespace PriorityQueue
         int heapSize = -1;
 
         List<Node> queue = new List<Node>();
+
+        public int Count { get{return queue.Count;} }
 
         private int ChildL(int i)
         {
@@ -46,7 +48,7 @@ namespace PriorityQueue
             if(heapSize <= -1)
                 throw new Exception("Heap is emtpy!");
             
-            T returnVal = queue[heapSize].Val;
+            T returnVal = queue[0].Val;
             queue[0] = queue[heapSize];
             queue.RemoveAt(heapSize);
             heapSize--;
@@ -64,16 +66,16 @@ namespace PriorityQueue
             int lChild = ChildL(i);
             int rChild = ChildR(i);
 
-            int lowest = i;
+            int highest = i;
 
-            if(lChild <= heapSize && queue[lChild].Priority > queue[lowest].Priority)
-                lowest = lChild;
-            if(rChild <= heapSize && queue[rChild].Priority > queue[lowest].Priority)
-                lowest = rChild;
+            if(lChild <= heapSize && queue[lChild].Priority > queue[highest].Priority)
+                highest = lChild;
+            if(rChild <= heapSize && queue[rChild].Priority > queue[highest].Priority)
+                highest = rChild;
 
-            if(lowest != i) {
-                Swap(i, lowest);
-                MaxHeapify(lowest);
+            if(highest != i) {
+                Swap(i, highest);
+                MaxHeapify(highest);
             }
         }
 
@@ -113,11 +115,10 @@ namespace PriorityQueue
             }
         }
 
-        private void Swap(int i, int v)
+        private void Swap(int i, int j)
         {
-            Node temp = queue[i];
-            queue[i] = queue[(i-1)/2];
-            queue[(i-1)/2] = temp;
+            var temp = queue[i];
+            queue[i] = queue[j];
+            queue[j] = temp;
         }
     }
-}
